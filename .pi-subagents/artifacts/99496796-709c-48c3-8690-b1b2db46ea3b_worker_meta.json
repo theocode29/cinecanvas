@@ -1,0 +1,27 @@
+{
+  "runId": "99496796-709c-48c3-8690-b1b2db46ea3b",
+  "agent": "worker",
+  "task": "You are fixing a Tauri v2 macOS window-dragging bug in the CineCanvas app (cwd: `/Users/theophilebaudouin/Documents/devellopement/cinecanvas`). This is a tiny, surgical fix. Ponytail: minimal change, no extras.\n\n## Problem\nWith `titleBarStyle: \"Overlay\"` + `hiddenTitle: true` in `src-tauri/tauri.conf.json`, the window CANNOT be moved on macOS. This is a known Tauri v2 regression (tauri#9503). The fix (per official docs https://v2.tauri.app/learn/window-customization/): add an HTML element with the `data-tauri-drag-region` attribute to act as a draggable titlebar strip, and ensure the window has the `start-dragging` permission.\n\n## Fix — two files only\n\n### 1. `src/App.tsx` — replace its entire contents with:\n```tsx\nexport default function App() {\n  return (\n    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', background: '#F2EDE4' }}>\n      {/* Tauri v2 overlay windows need an explicit drag region (tauri#9503): this strip is the draggable titlebar; the native macOS traffic lights overlay it. */}\n      <div data-tauri-drag-region style={{ height: 32, flexShrink: 0, userSelect: 'none' }} />\n      {/* Canvas area — Phase 2 mounts React Flow here. */}\n      <div style={{ flex: 1 }} />\n    </div>\n  );\n}\n```\n(The top 32px strip is the draggable region, same parchment color #F2EDE4, visually seamless. The native traffic lights sit over its top-left at trafficLightPosition {16,20}. Below the strip is the future canvas area.)\n\n### 2. `src-tauri/capabilities/default.json` — add the start-dragging permission\nCurrent permissions array is `[\"core:default\", \"opener:default\"]`. The `core:default` set does NOT include `allow-start-dragging`, so add it explicitly. The file must become:\n```json\n{\n  \"$schema\": \"../gen/schemas/desktop-schema.json\",\n  \"identifier\": \"default\",\n  \"description\": \"Capability for the main window\",\n  \"windows\": [\"main\"],\n  \"permissions\": [\n    \"core:default\",\n    \"opener:default\",\n    \"core:window:allow-start-dragging\"\n  ]\n}\n```\nPreserve key order/format otherwise. Keep it valid JSON.\n\n## Hard constraints\n- DO NOT run `pnpm tauri dev` (it blocks for a GUI window + compiles Rust for minutes). DO NOT run cargo.\n- DO NOT modify `cinecanvas-spec.md`, `AGENTS.md`, or anything under `.pi/`.\n- Change ONLY `src/App.tsx` and `src-tauri/capabilities/default.json`. Nothing else.\n\n## Verify\n1. `pnpm exec tsc --noEmit` → must be 0 errors.\n2. Confirm `src-tauri/capabilities/default.json` is valid JSON (e.g. `node -e \"JSON.parse(require('fs').readFileSync('src-tauri/capabilities/default.json','utf8'))\"` → no output = OK).\n\n## Report back\nConcisely: the two files changed (paste the final App.tsx and the permissions array), the `tsc --noEmit` result, the JSON validation result. Note that the actual window-drag must be confirmed manually by the user running `pnpm tauri dev` in a GUI session (we cannot run it here). List anything unexpected.\n\n## Acceptance Contract\nAcceptance level: reviewed\nCompletion is not accepted from prose alone. End with a structured acceptance report.\n\nCriteria:\n- criterion-1: Implement the requested change without widening scope\n- criterion-2: Return evidence sufficient for an independent acceptance review\n\nRequired evidence: changed-files, tests-added, commands-run, validation-output, residual-risks, no-staged-files\n\nReview gate: required by reviewer.\n\nFinish with a fenced JSON block tagged `acceptance-report` in this shape:\nUse empty arrays when no items apply; array fields contain strings unless object entries are shown.\n```acceptance-report\n{\n  \"criteriaSatisfied\": [\n    {\n      \"id\": \"criterion-1\",\n      \"status\": \"satisfied\",\n      \"evidence\": \"specific proof\"\n    }\n  ],\n  \"changedFiles\": [\n    \"src/file.ts\"\n  ],\n  \"testsAddedOrUpdated\": [\n    \"test/file.test.ts\"\n  ],\n  \"commandsRun\": [\n    {\n      \"command\": \"command\",\n      \"result\": \"passed\",\n      \"summary\": \"short result\"\n    }\n  ],\n  \"validationOutput\": [\n    \"validation output or concise summary\"\n  ],\n  \"residualRisks\": [\n    \"none\"\n  ],\n  \"noStagedFiles\": true,\n  \"diffSummary\": \"short description of the diff\",\n  \"reviewFindings\": [\n    \"blocker: file.ts:12 - issue found, or no blockers\"\n  ],\n  \"manualNotes\": \"anything else the parent should know\"\n}\n```",
+  "exitCode": 0,
+  "model": "zai/glm-5.2:xhigh",
+  "attemptedModels": [
+    "zai/glm-5.2:xhigh"
+  ],
+  "modelAttempts": [
+    {
+      "model": "zai/glm-5.2:xhigh",
+      "success": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 12025,
+        "output": 1740,
+        "cacheRead": 45760,
+        "cacheWrite": 0,
+        "cost": 0,
+        "turns": 5
+      }
+    }
+  ],
+  "skills": [],
+  "timestamp": 1783011067066
+}

@@ -1,4 +1,4 @@
-import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, NodeResizer, Position, type Node, type NodeProps } from "@xyflow/react";
 import type { CanvasImageData } from "@/search/types";
 
 const MAX_W = 400;
@@ -20,29 +20,70 @@ export const ImageNode = ({ data, selected }: NodeProps<ImageNodeType>) => {
 		"title" in source
 			? `${source.title} — ${source.director}`
 			: "Imported reference";
+	const annotation = typeof data.annotation === "string" ? data.annotation : "";
+
 	return (
 		<div
 			style={{
-				width: w,
-				height: h,
+				width: "100%",
+				height: "100%",
+				minWidth: 64,
+				minHeight: 40,
 				transform: `rotate(${rotation}deg)`,
 				filter: grayscale ? "grayscale(1)" : "none",
 				boxShadow: selected
 					? "0 0 0 2px var(--cc-accent), 0 0 0 5px var(--cc-accent-soft)"
 					: "0 2px 8px rgba(44,33,23,0.18)",
 				borderRadius: 4,
-				overflow: "hidden",
 				cursor: "grab",
+				position: "relative",
 			}}
 		>
+			<NodeResizer
+				isVisible={selected}
+				minWidth={48}
+				minHeight={32}
+				lineStyle={{ borderColor: "var(--cc-accent)" }}
+				handleStyle={{ background: "var(--cc-accent)", borderColor: "var(--cc-bg)" }}
+			/>
+			<Handle type="target" position={Position.Left} style={{ opacity: selected ? 1 : 0 }} />
+			<Handle type="source" position={Position.Right} style={{ opacity: selected ? 1 : 0 }} />
 			<img
 				src={src}
 				alt={alt}
 				width={w}
 				height={h}
-				style={{ display: "block", objectFit: "cover" }}
+				style={{
+					display: "block",
+					width: "100%",
+					height: "100%",
+					objectFit: "cover",
+					borderRadius: 4,
+				}}
 				draggable={false}
 			/>
+			{annotation ? (
+				<div
+					style={{
+						position: "absolute",
+						left: 0,
+						right: 0,
+						bottom: -30,
+						minHeight: 22,
+						padding: "4px 7px",
+						borderRadius: 4,
+						background: "rgba(242, 237, 228, 0.94)",
+						color: "var(--cc-text-primary)",
+						font: "500 11px 'Geist Sans', 'Helvetica Neue', sans-serif",
+						boxShadow: "0 3px 12px rgba(44,33,23,0.16)",
+						whiteSpace: "nowrap",
+						overflow: "hidden",
+						textOverflow: "ellipsis",
+					}}
+				>
+					{annotation}
+				</div>
+			) : null}
 		</div>
 	);
 };

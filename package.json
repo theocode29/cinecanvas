@@ -8,23 +8,38 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "test": "vitest"
+    "test": "vitest",
+    "crawl": "tsx scripts/crawl.ts",
+    "ingest": "tsx scripts/ingest.ts"
   },
   "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "@orama/orama": "^3.1.18",
     "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-clipboard-manager": "^2.3.2",
+    "@tauri-apps/plugin-dialog": "^2.7.1",
+    "@tauri-apps/plugin-fs": "^2.5.1",
     "@tauri-apps/plugin-opener": "^2",
     "@xyflow/react": "^12.11.1",
+    "framer-motion": "^12.42.2",
+    "html-to-image": "^1.11.13",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
+    "@types/cli-progress": "^3.11.6",
     "@types/node": "^26.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
+    "cheerio": "^1.2.0",
+    "cli-progress": "^3.12.0",
     "jsdom": "^29.1.1",
+    "sharp": "^0.35.3",
+    "tsx": "^4.22.5",
     "typescript": "~5.8.3",
+    "undici": "^8.6.0",
     "vite": "^7.0.4",
     "vitest": "^4.1.9"
   }
