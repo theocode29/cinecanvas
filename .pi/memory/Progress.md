@@ -2,7 +2,7 @@
 
 ## In Progress
 
-## Completed
+## Completed (this session)
 
 - [x] Phase 1 — Foundations (tag `mvp-1-foundations`): Tauri v2 + React + TS scaffold, frameless draggable macOS window, strict TS + `@/*` aliases, parchment App.tsx, structured logger (10 tests, tsc clean)
   - [x] 1.1–1.7 Scaffold, frameless window, strict config, App.tsx, logger (10 tests), git, drag-region fix (user-verified)
