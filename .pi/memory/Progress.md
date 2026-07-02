@@ -5,17 +5,17 @@
 ## Completed
 
 - [x] Phase 1 — Foundations (tag `mvp-1-foundations`): Tauri v2 + React + TS scaffold, frameless draggable macOS window, strict TS + `@/*` aliases, parchment App.tsx, structured logger (10 tests, tsc clean)
-  - [x] 1.1 Scaffold via `create-tauri-app` react-ts (Tauri v2)
-  - [x] 1.2 Frameless window (titleBarStyle Overlay, hiddenTitle, trafficLightPosition)
-  - [x] 1.3 Strict tsconfig + `@/*` aliases + vite/vitest config
-  - [x] 1.4 App.tsx parchment div (#F2EDE4)
-  - [x] 1.5 `src/lib/logger.ts` + 10 vitest tests
-  - [x] 1.6 git init + commits + tag mvp-1-foundations
-  - [x] 1.7 Drag-region fix — 32px `data-tauri-drag-region` strip + `core:window:allow-start-dragging` capability (tauri#9503); **user-verified working** (`pnpm tauri dev`)
+  - [x] 1.1–1.7 Scaffold, frameless window, strict config, App.tsx, logger (10 tests), git, drag-region fix (user-verified)
+
+- [x] Phase 2 — Canvas (tag `mvp-2-canvas`): React Flow 12.11.1, sensory theme + SVG grain, pan/zoom, coordinate/theme helpers — 20 tests (30 total)
+  - [x] 2.1 `canvasHelpers.ts` — clampZoom, viewportContains, canvasToScreen/screenToCanvas (10 tests)
+  - [x] 2.2 `canvasTheme.ts` — CINE_THEME tokens, injectCSSVars, injectGrainFilter (10 tests)
+  - [x] 2.3 `CanvasRoot.tsx` + `ImageNode.tsx` — wired in flex:1 below the drag strip, empty canvas with grid background
+  - [x] 2.4 Data model types (`FilmFrame`, `CanvasImageData`, etc.) in `src/search/types.ts`
+  - [x] 2.5 Adaptations: PanOnScrollMode enum (v12), local ImageNodeData type (keeps pure types.ts isolated)
 
 ## Backlog (next up)
 
-- [ ] Phase 2 — Canvas: `@xyflow/react`, sensory theme + grain, pan/zoom, canvasHelpers + canvasTheme tests
 - [ ] Phase 3 — SearchEngine: hybrid CLIP (text int8) + Orama + color search (no UI)
 - [ ] Phase 4 — Spotlight: `Cmd+F` → results strip → React Flow canvas drop
 - [ ] Phase 5 — Graph: AnnotationStore + ConnectionStore
